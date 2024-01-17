@@ -7,8 +7,10 @@ License:        Custom
 Group:          Games/3D/Shoot
 URL:            https://github.com/OpenXRay/xray-16
 Source0:        xray-16-%{git}.tar.xz
+Patch0:		xray-16-compile.patch
 
 BuildRequires:  cmake
+BuildRequires:	ninja
 BuildRequires:  fdupes
 BuildRequires:  freeimage-devel
 BuildRequires:  git-core
@@ -48,14 +50,26 @@ See: %{_docdir}/openxray/README.SUSE for details.
 #        compilation does not work with obs-provided %%optflags!
 %cmake \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=%{_prefix}
-%make_build
+    -DCMAKE_INSTALL_PREFIX=%{_prefix} \
+    -DXRAY_USE_DEFAULT_CXX_LIB:BOOL=ON \
+    -G Ninja
+%ninja_build
 
 %install
 #cd build
-%make_install -C build
+%ninja_install -C build
 # FIXME: .gitattributes should not be part of the installed files
 rm %{buildroot}%{_datadir}/openxray/gamedata/shaders/.gitattributes
 %fdupes %{buildroot}%{_datadir}
 
+# No need to package static libs that don't have corresponding headers
+rm %{buildroot}%{_libdir}/*.a
+
 %files
+%{_bindir}/*
+%{_libdir}/*.so
+%{_datadir}/openxray
+%{_datadir}/pixmaps/*
+%{_datadir}/applications/*.desktop
+%{_datadir}/bash-completion/completions/*
+%{_datadir}/icons/hicolor/*/*/*

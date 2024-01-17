@@ -1,0 +1,33 @@
+diff -up xray-16-20240114/CMakeLists.txt.omv~ xray-16-20240114/CMakeLists.txt
+--- xray-16-20240114/CMakeLists.txt.omv~	2024-01-17 18:09:10.614240545 +0100
++++ xray-16-20240114/CMakeLists.txt	2024-01-17 17:51:26.185129252 +0100
+@@ -4,7 +4,7 @@ message(STATUS "CMAKE_VERSION: ${CMAKE_V
+ 
+ project(OpenXRay)
+ 
+-set(CMAKE_CXX_STANDARD 17)
++set(CMAKE_CXX_STANDARD 20)
+ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+ 
+ option(CMAKE_VERBOSE_MAKEFILE "Verbose build output" OFF)
+diff -up xray-16-20240114/src/xrGame/sight_manager.cpp.omv~ xray-16-20240114/src/xrGame/sight_manager.cpp
+--- xray-16-20240114/src/xrGame/sight_manager.cpp.omv~	2024-01-17 17:53:03.177846198 +0100
++++ xray-16-20240114/src/xrGame/sight_manager.cpp	2024-01-17 17:53:10.273900166 +0100
+@@ -482,7 +482,7 @@ Fvector CSightManager::aiming_position()
+     return (result);
+ }
+ 
+-static inline float lerp(float low, float high, float value)
++/*static inline float lerp(float low, float high, float value)
+ {
+     float result;
+     if (low > high)
+@@ -501,7 +501,7 @@ static inline float lerp(float low, floa
+         return (low);
+ 
+     return (result);
+-}
++}*/
+ 
+ void CSightManager::process_action(float const time_delta)
+ {
